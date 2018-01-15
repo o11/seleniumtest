@@ -8,8 +8,11 @@ class TestGithub(unittest.TestCase):
         self.github.login()
 
     def test_get_repositories(self):
-        self.assertEqual(len(self.github.get_stars()), 386)
         self.assertEqual(len(self.github.get_repositories()), 46)
 
-    def tearDown(self):
-        self.github.__del__()
+    def test_get_stars(self):
+        self.assertEqual(len(self.github.get_stars()), 386)
+
+
+if __name__ == '__main__':
+    unittest.main()
