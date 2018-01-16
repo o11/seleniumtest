@@ -20,10 +20,12 @@ class Github:
         self.__stars_url = self.__base_url + self.__username + '?page=1&tab=stars'
         self.__repositories_url = self.__base_url + self.__username + '?page=1&tab=repositories'
 
-        if platform.system().lower() == 'linux':
-            self.__driver = webdriver.Chrome('drivers/chromedriver_linux')
-        else:  # Windows
+        if platform.system().lower() == 'windows':
             self.__driver = webdriver.Chrome('drivers/chromedriver_windows.exe')
+        elif platform.system().lower() == 'linux':
+            self.__driver = webdriver.Chrome('drivers/chromedriver_linux')
+        else:
+            self.__driver = webdriver.Chrome('drivers/chromedriver_macos')
 
     def login(self):
         """Login to github with given credentials"""
@@ -92,4 +94,10 @@ class Github:
 if __name__ == '__main__':
     github = Github(username='o11', password='')
     github.login()
+
     github.get_repositories()
+    github.get_stars()
+
+    github.username = 'torvalds'
+    github.get_repositories()
+    github.get_stars()
