@@ -1,4 +1,5 @@
 from selenium import webdriver
+import platform
 
 
 class Github:
@@ -18,7 +19,11 @@ class Github:
         self.__login_url = self.__base_url + 'login/'
         self.__stars_url = self.__base_url + self.__username + '?page=1&tab=stars'
         self.__repositories_url = self.__base_url + self.__username + '?page=1&tab=repositories'
-        self.__driver = webdriver.Chrome('./chromedriver')
+
+        if platform.system().lower() == 'linux':
+            self.__driver = webdriver.Chrome('drivers/chromedriver_linux')
+        else:  # Windows
+            self.__driver = webdriver.Chrome('drivers/chromedriver_windows.exe')
 
     def login(self):
         """Login to github with given credentials"""
@@ -32,6 +37,11 @@ class Github:
         element_password.send_keys(self.__password)
 
         element_form.submit()
+
+        logged_in = self.__driver.get_cookie(name='logged_in')
+        user_session = self.__driver.get_cookie(name='user_session')
+        if logged_in is None or user_session is None:
+            raise Exception('UnauthorizedException! Cannot authorize with given credentials!')
 
     def get_repositories(self):
         """:return repositories"""
@@ -77,3 +87,9 @@ class Github:
         self.__repositories_url = self.__base_url + self.__username + '?page=1&tab=repositories'
         self.__repositories = []  # delete repositories of other users
         self.__stars = []  # delete all stars of other users
+
+
+if __name__ == '__main__':
+    github = Github(username='o11', password='')
+    github.login()
+    github.get_repositories()
