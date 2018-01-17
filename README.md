@@ -1,3 +1,5 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/o11/seleniumtest/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/o11/seleniumtest?targetFile=requirements.txt)
+
 ### selenium test
 Get repositories and stars of any user with selenium
 
